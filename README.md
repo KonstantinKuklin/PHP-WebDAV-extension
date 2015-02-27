@@ -1,9 +1,8 @@
 [![Build Status](https://secure.travis-ci.org/jedisct1/PHP-WebDAV-extension.png)](http://travis-ci.org/jedisct1/PHP-WebDAV-extension)
 
-                         .:. PHP WebDAV extension .:.
+# PHP WebDAV extension
 
-
-            ------------------------ BLURB ------------------------
+## BLURB
 
 
 The PHP WebDAV extension allows easy access to remote resources through the
@@ -16,7 +15,7 @@ The PHP WebDAV extension home page is http://php-webdav.pureftpd.org
 Please report bugs and suggestions to j <at> pureftpd <dot> org
 
 
-         ------------------------ INSTALLATION ------------------------
+## INSTALLATION
          
 
 This extension requires the Neon library and the related header files.
@@ -31,7 +30,7 @@ standard PECL procedure :
 
 $ phpize
 $ ./configure --enable-dav
-# make install
+$ make install
 
 On OpenBSD systems, use
 $ env AUTOCONF_VERSION=2.61 phpize
@@ -39,9 +38,9 @@ $ env AUTOCONF_VERSION=2.61 phpize
 (replace 2.61 with any of the currently installed versions of autoconf on your
 system)
 
-        ------------------------ BASIC EXAMPLE ------------------------
-        
-        
+## BASIC EXAMPLE
+
+```php
 webdav_connect('http://webdav.example.com/dav', 'davuser', 'davpassword');
 $a = webdav_get('/my/nice/object.txt');
 webdav_put('/your/nice/thing.txt', $data);
@@ -49,11 +48,11 @@ webdav_unlink('/unwanted_resource.txt');
 webdav_rename('/dir/old_name', '/dir/new_name');
 webdav_copy('/dir/orig_dir', '/dir/new_dir', TRUE);
 webdav_close();
+```
 
-
-   ------------------------ NAMED RESOURCE EXAMPLE ------------------------
+## NAMED RESOURCE EXAMPLE
         
-        
+```php        
 $res = webdav_connect('http://webdav.example.com/dav', 'davuser', 'davpassword');
 $a = webdav_get('/my/nice/object.txt', $res);
 webdav_put('/your/nice/thing.txt', $data, $res);
@@ -61,9 +60,9 @@ webdav_unlink('/unwanted_resource.txt', $res);
 webdav_rename('/dir/old_name', '/dir/new_name', $res);
 webdav_copy('/dir/orig_dir', '/dir/new_dir', TRUE, $res);
 webdav_close($res);
+```
 
-
-  ------------------------ ESTABLISHING A CONNECTION ------------------------
+## ESTABLISHING A CONNECTION
 
 
 In order to establish a new connection, use:
@@ -73,37 +72,49 @@ webdav_connect(string base_url [, string user [, string password
 
 Examples:
 
-webdav_connect('http://webdav.example.org/dav/')
-webdav_connect('http://webdav.example.org/dav/', 'myuser', 'mypassword')
-webdav_connect('http://webdav.example.org/dav/', 'myuser', 'mypassword', 10)
+```php
+webdav_connect('http://webdav.example.org/dav/');
+webdav_connect('http://webdav.example.org/dav/', 'myuser', 'mypassword');
+webdav_connect('http://webdav.example.org/dav/', 'myuser', 'mypassword', 10);
+```
 
 Closing a session just requires a call to webdav_close() :
 
-webdav_close()
-webdav_close($resource)
+```php
+webdav_close();
+webdav_close($resource);
+```
 
 The base url is a string that will be concatened to URI parts of other
 functions in order to get the full resource URL.
 
 Examples:
 
+```php
 webdav_connect('http://webdav.example.org/dav/');
 $a = webdav_get('nice/object.txt');
+```php
 
 => fetch http://webdav.example.org/dav/nice/object.txt
 
+```php
 webdav_connect('http://webdav.example.org/dav');
 $a = webdav_get('/nice/object.txt');
+```
 
 => also fetch http://webdav.example.org/dav/nice/object.txt
 
+```php
 webdav_connect('http://webdav.example.org/dav');
 $a = webdav_get('nice/object.txt');
+```
 
 => WRONG : fetches http://webdav.example.org/davnice/object.txt
 
+```php
 webdav_connect('http://webdav.example.org/dav/');
 $a = webdav_get('/nice/object.txt');
+```
 
 => WRONG : fetches http://webdav.example.org/dav//nice/object.txt
 
@@ -111,7 +122,7 @@ As an alternative, the name webdav_open() can be used in place of
 webdav_connect().
 
 
-     ------------------------ FETCHING A RESOURCE ------------------------
+## FETCHING A RESOURCE
      
      
 In order to fetch a resource, use:
@@ -120,14 +131,13 @@ webdav_get(string uri [, resource session])
 The function returns the content, or FALSE if an error occurred.
 
 
-     ------------------------ STORING A RESOURCE ------------------------
+## STORING A RESOURCE
      
 
 Storing a resource is available through the webdav_put() function:
 webdav_put(string uri, string data [, resource session])
 
-
-     ------------------------ DELETING A RESOURCE ------------------------
+## DELETING A RESOURCE
      
 
 webdav_delete() deletes a resource :
@@ -137,8 +147,7 @@ As an alternative, the names webdav_unlink(), webdav_remove() and
 webdav_rmdir() can be used in place of webdav_delete().
 
 
-    ------------------------ CREATING A COLLECTION ------------------------
-    
+## CREATING A COLLECTION    
 
 A collection (think about it as a subdirectory if you aren't familiar with
 DAV) is created with the webdav_mkcol() function :
@@ -149,8 +158,7 @@ As an alternative, the name webdav_mkdir() can be used in place of
 webdav_mkcol().
 
 
-     ------------------------ COPYING A RESOURCE ------------------------
-     
+## COPYING A RESOURCE
 
 If the server implements it, resources can be copied:
 
@@ -160,8 +168,7 @@ webdav_copy(string source_uri, string target_uri
 By default, resources can be overwritten and they are recursively copied.
 
 
- ------------------------ MOVING/RENAMING A RESOURCE ------------------------
-
+## MOVING/RENAMING A RESOURCE
 
 Resources can also be moved or renamed:
  
@@ -172,15 +179,14 @@ As an alternative, the name webdav_rename() can be used in place of
 webdav_move().
 
 
- ------------------------------ PHP STREAM API ------------------------------
+## PHP STREAM API
 
 
 As an alternative to webdav_*() functions, the dav_stream.inc.php file can be
 included in your projects so that DAV servers can be reached through standard
 PHP calls, through webdav:// streams:
 
-<?php
-
+```php
 require 'dav_stream.inc.php';
 
 $fp = fopen('webdav://dav.example.com/dav/dir/file.txt', 'w');
@@ -190,8 +196,6 @@ $data = file_get_contents('webdav://dav.example.com/dav/dir/file.txt');
 $st = stat('webdav://dav.example.com/dav/dir/file.txt');
 copy('/tmp/xyz.txt', 'webdav://dav.example.com/dav/dir/xyz.txt');
 unlink('webdav://dav.example.com/dav/dir/abc.txt');
-
-?>
+```
 
 This is a bit slower than native webdav_*() functions.
-
