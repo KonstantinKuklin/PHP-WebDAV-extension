@@ -1,3 +1,4 @@
+[![Build Status](https://secure.travis-ci.org/jedisct1/PHP-WebDAV-extension.png)](http://travis-ci.org/jedisct1/PHP-WebDAV-extension)
 
                          .:. PHP WebDAV extension .:.
 
